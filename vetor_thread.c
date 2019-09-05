@@ -43,7 +43,7 @@ int main(){
     struct args_struct args;
     args.tamanho = 15;
     for(int i = 0; i < args.tamanho; i++){
-        args.vetor[i] = i;
+        args.vetor[i] = 0;
     }
     pthread_create(&t1, NULL, metade1, (void*)&args);
     pthread_create(&t2, NULL, metade2, (void*)&args);
