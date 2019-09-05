@@ -1,0 +1,8 @@
+digraph {
+	graph [fontname=Arial, nodesep=0.125, ranksep=0.25];
+	node [fontcolor=white, fontname=Arial, height=0, shape=box, style=filled, width=0];
+	edge [fontname=Arial];
+	1 [color="#ff0000", fontcolor="#ffffff", fontsize="10.00", label="main\n100.00%\n(0.00%)"];
+	1 -> 2 [arrowsize="1.00", color="#ff0300", fontcolor="#ff0300", fontsize="10.00", label="99.72%\n1×", labeldistance="3.99", penwidth="3.99"];
+	2 [color="#ff0300", fontcolor="#ffffff", fontsize="10.00", label="multiplicar\n99.72%\n(99.72%)\n1×"];
+}

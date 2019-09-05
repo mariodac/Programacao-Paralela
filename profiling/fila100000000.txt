@@ -1,0 +1,202 @@
+Flat profile:
+
+Each sample counts as 0.01 seconds.
+  %   cumulative   self              self     total           
+ time   seconds   seconds    calls   s/call   s/call  name    
+ 62.28      1.63     1.63        1     1.63     1.78  fila_exibir(filaLinear*)
+ 25.98      2.31     0.68        1     0.68     0.80  fila_prenche_aletorio(filaLinear*)
+  5.73      2.46     0.15 100000003     0.00     0.00  fila_vazia(filaLinear*)
+  4.59      2.58     0.12 100000001     0.00     0.00  fila_cheia(filaLinear*)
+  1.15      2.61     0.03                             enfileirar(filaLinear*, int)
+  0.38      2.62     0.01        1     0.01     0.01  inicializaFilaVazia(filaLinear*)
+  0.00      2.62     0.00        6     0.00     0.00  select_op()
+  0.00      2.62     0.00        1     0.00     0.00  _GLOBAL__sub_I_main
+  0.00      2.62     0.00        1     0.00     0.00  __static_initialization_and_destruction_0(int, int)
+  0.00      2.62     0.00        1     0.00     0.00  esvaziar(filaLinear*)
+  0.00      2.62     0.00        1     0.00     0.00  criarFila()
+
+ %         the percentage of the total running time of the
+time       program used by this function.
+
+cumulative a running sum of the number of seconds accounted
+ seconds   for by this function and those listed above it.
+
+ self      the number of seconds accounted for by this
+seconds    function alone.  This is the major sort for this
+           listing.
+
+calls      the number of times this function was invoked, if
+           this function is profiled, else blank.
+
+ self      the average number of milliseconds spent in this
+ms/call    function per call, if this function is profiled,
+	   else blank.
+
+ total     the average number of milliseconds spent in this
+ms/call    function and its descendents per call, if this
+	   function is profiled, else blank.
+
+name       the name of the function.  This is the minor sort
+           for this listing. The index shows the location of
+	   the function in the gprof listing. If the index is
+	   in parenthesis it shows where it would appear in
+	   the gprof listing if it were to be printed.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+		     Call graph (explanation follows)
+
+
+granularity: each sample hit covers 2 byte(s) for 0.38% of 2.62 seconds
+
+index % time    self  children    called     name
+                                                 <spontaneous>
+[1]     98.9    0.00    2.59                 main [1]
+                1.63    0.15       1/1           fila_exibir(filaLinear*) [2]
+                0.68    0.12       1/1           fila_prenche_aletorio(filaLinear*) [3]
+                0.01    0.00       1/1           inicializaFilaVazia(filaLinear*) [7]
+                0.00    0.00       2/100000003     fila_vazia(filaLinear*) [4]
+                0.00    0.00       1/1           esvaziar(filaLinear*) [8]
+                0.00    0.00       1/100000001     fila_cheia(filaLinear*) [5]
+                0.00    0.00       6/6           select_op() [15]
+                0.00    0.00       1/1           criarFila() [18]
+-----------------------------------------------
+                1.63    0.15       1/1           main [1]
+[2]     67.9    1.63    0.15       1         fila_exibir(filaLinear*) [2]
+                0.15    0.00 100000000/100000003     fila_vazia(filaLinear*) [4]
+-----------------------------------------------
+                0.68    0.12       1/1           main [1]
+[3]     30.5    0.68    0.12       1         fila_prenche_aletorio(filaLinear*) [3]
+                0.12    0.00 100000000/100000001     fila_cheia(filaLinear*) [5]
+-----------------------------------------------
+                0.00    0.00       1/100000003     esvaziar(filaLinear*) [8]
+                0.00    0.00       2/100000003     main [1]
+                0.15    0.00 100000000/100000003     fila_exibir(filaLinear*) [2]
+[4]      5.7    0.15    0.00 100000003         fila_vazia(filaLinear*) [4]
+-----------------------------------------------
+                0.00    0.00       1/100000001     main [1]
+                0.12    0.00 100000000/100000001     fila_prenche_aletorio(filaLinear*) [3]
+[5]      4.6    0.12    0.00 100000001         fila_cheia(filaLinear*) [5]
+-----------------------------------------------
+                                                 <spontaneous>
+[6]      1.1    0.03    0.00                 enfileirar(filaLinear*, int) [6]
+-----------------------------------------------
+                0.01    0.00       1/1           main [1]
+[7]      0.4    0.01    0.00       1         inicializaFilaVazia(filaLinear*) [7]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[8]      0.0    0.00    0.00       1         esvaziar(filaLinear*) [8]
+                0.00    0.00       1/100000003     fila_vazia(filaLinear*) [4]
+-----------------------------------------------
+                0.00    0.00       6/6           main [1]
+[15]     0.0    0.00    0.00       6         select_op() [15]
+-----------------------------------------------
+                0.00    0.00       1/1           __libc_csu_init [30]
+[16]     0.0    0.00    0.00       1         _GLOBAL__sub_I_main [16]
+                0.00    0.00       1/1           __static_initialization_and_destruction_0(int, int) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           _GLOBAL__sub_I_main [16]
+[17]     0.0    0.00    0.00       1         __static_initialization_and_destruction_0(int, int) [17]
+-----------------------------------------------
+                0.00    0.00       1/1           main [1]
+[18]     0.0    0.00    0.00       1         criarFila() [18]
+-----------------------------------------------
+
+ This table describes the call tree of the program, and was sorted by
+ the total amount of time spent in each function and its children.
+
+ Each entry in this table consists of several lines.  The line with the
+ index number at the left hand margin lists the current function.
+ The lines above it list the functions that called this function,
+ and the lines below it list the functions this one called.
+ This line lists:
+     index	A unique number given to each element of the table.
+		Index numbers are sorted numerically.
+		The index number is printed next to every function name so
+		it is easier to look up where the function is in the table.
+
+     % time	This is the percentage of the `total' time that was spent
+		in this function and its children.  Note that due to
+		different viewpoints, functions excluded by options, etc,
+		these numbers will NOT add up to 100%.
+
+     self	This is the total amount of time spent in this function.
+
+     children	This is the total amount of time propagated into this
+		function by its children.
+
+     called	This is the number of times the function was called.
+		If the function called itself recursively, the number
+		only includes non-recursive calls, and is followed by
+		a `+' and the number of recursive calls.
+
+     name	The name of the current function.  The index number is
+		printed after it.  If the function is a member of a
+		cycle, the cycle number is printed between the
+		function's name and the index number.
+
+
+ For the function's parents, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the function into this parent.
+
+     children	This is the amount of time that was propagated from
+		the function's children into this parent.
+
+     called	This is the number of times this parent called the
+		function `/' the total number of times the function
+		was called.  Recursive calls to the function are not
+		included in the number after the `/'.
+
+     name	This is the name of the parent.  The parent's index
+		number is printed after it.  If the parent is a
+		member of a cycle, the cycle number is printed between
+		the name and the index number.
+
+ If the parents of the function cannot be determined, the word
+ `<spontaneous>' is printed in the `name' field, and all the other
+ fields are blank.
+
+ For the function's children, the fields have the following meanings:
+
+     self	This is the amount of time that was propagated directly
+		from the child into the function.
+
+     children	This is the amount of time that was propagated from the
+		child's children to the function.
+
+     called	This is the number of times the function called
+		this child `/' the total number of times the child
+		was called.  Recursive calls by the child are not
+		listed in the number after the `/'.
+
+     name	This is the name of the child.  The child's index
+		number is printed after it.  If the child is a
+		member of a cycle, the cycle number is printed
+		between the name and the index number.
+
+ If there are any cycles (circles) in the call graph, there is an
+ entry for the cycle-as-a-whole.  This entry shows who called the
+ cycle (as parents) and the members of the cycle (as children.)
+ The `+' recursive calls entry shows the number of function calls that
+ were internal to the cycle, and the calls entry for each member shows,
+ for that member, how many times it was called from other members of
+ the cycle.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+Copying and distribution of this file, with or without modification,
+are permitted in any medium without royalty provided the copyright
+notice and this notice are preserved.
+
+Index by function name
+
+  [16] _GLOBAL__sub_I_main     [2] fila_exibir(filaLinear*) [8] esvaziar(filaLinear*)
+   [6] enfileirar(filaLinear*, int) [7] inicializaFilaVazia(filaLinear*) [18] criarFila()
+   [5] fila_cheia(filaLinear*) [3] fila_prenche_aletorio(filaLinear*) [15] select_op()
+   [4] fila_vazia(filaLinear*) [17] __static_initialization_and_destruction_0(int, int)
