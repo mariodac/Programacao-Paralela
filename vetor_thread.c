@@ -41,7 +41,7 @@ void *imprime(void *arguments){
 int main(){
     pthread_t t1, t2, t3;
     struct args_struct args;
-    args.tamanho = 15;
+    args.tamanho = 10;
     for(int i = 0; i < args.tamanho; i++){
         args.vetor[i] = 0;
     }
