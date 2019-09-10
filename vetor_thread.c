@@ -1,53 +1,45 @@
 #include "pthread.h"
 #include "stdio.h"
+#include "unistd.h"
+
+#define TAM 10
+
+int v[TAM];
 
 struct args_struct{
-    int tamanho;
-    int vetor[];
+    int inicio;
+    int fim;
 };
 
-void *metade1(void *arguments){
+void *calc(void *arguments){
     struct args_struct *args = arguments;
-    printf("metade1\n");
-    for (int i = 0; i < (args->tamanho/2); i++)
+    for (int i = args->inicio; i < (args->fim); i++)
     {
-        args->vetor[i] = (i + i) - (i * i);
-        printf("Metade1: %d\n", i);
+        printf("%d - ", v[i]);
+        v[i] = (i + i) - (i * i);
+        sleep(1);
+        printf("%d", v[i]);
+        printf("\n");
     }
+    printf("\n");
     pthread_exit(NULL);
 }
 
-
-
-void *metade2(void *arguments){
-    struct args_struct *args = arguments;
-    printf("metade2\n");
-    for (int i = (args->tamanho/2); i < args->tamanho; i++)
-    {
-        args->vetor[i] = (i + i) - (i * i);
-        printf("Metade2: %d\n", i);
-    }
-    pthread_exit(NULL);
-}
-
-void *imprime(void *arguments){
-    struct args_struct *args = arguments;
-    for (int i = 0; i < args->tamanho; i++)
-    {
-        printf("Elemento %d: %d\n", i, args->vetor[i]);
-    }
-    pthread_exit(NULL);
-}
 int main(){
-    pthread_t t1, t2, t3;
+    pthread_t t1, t2;
     struct args_struct args;
-    args.tamanho = 10;
-    for(int i = 0; i < args.tamanho; i++){
-        args.vetor[i] = 0;
+    for(int i = 0; i < TAM; i++){
+        v[i] = 0;
     }
-    pthread_create(&t1, NULL, metade1, (void*)&args);
-    pthread_create(&t2, NULL, metade2, (void*)&args);
-    for(int i = 0; i < args.tamanho; i++) printf("%d ", args.vetor[i]);
+    args.inicio = 0;
+    args.fim = TAM / 2;
+    // printf("%d %d\n", args.inicio, args.fim);
+    pthread_create(&t1, NULL, calc, (void*)&args);
+    args.inicio = TAM / 2;
+    args.fim = TAM;
+    // printf("%d %d\n", args.inicio, args.fim);
+    pthread_create(&t2, NULL, calc, (void*)&args);
+    // for(int i = 0; i < TAM; i++) printf("%d ", v[i]);
     printf("\n");
     pthread_exit(NULL);
 }

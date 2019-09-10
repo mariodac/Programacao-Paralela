@@ -16,6 +16,9 @@ int main(){
 
 void operacaoVetor(int *v, int t){
     for(int i = 0; i < t; i++){
+        printf("%d -> ", v[i]);
         v[i] = (i + i) - (i * i);
+        printf("%d", v[i]);
+        printf("\n");
     }
 }
