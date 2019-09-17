@@ -2,10 +2,10 @@
 #include "stdlib.h"
 #include "omp.h"
 
-#define TAM 10000
+#define TAM 99999
 long int matriz[TAM][TAM];
 
-void operacaoMatriz(long long int[][TAM], int);
+void operacaoMatriz(long int[][TAM], int);
 void salvarArquivo(char*);
 
 int main(){
@@ -24,7 +24,7 @@ int main(){
     return 0;
 }
 
-void operacaoMatriz(long long int m[][TAM], int t){
+void operacaoMatriz(long int m[][TAM], int t){
     for(int i = 0; i < t; i++)
         for (int j = 0; j < t; j++)
             m[i][j] = (i + j) - (i * j);
