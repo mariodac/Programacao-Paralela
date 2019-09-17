@@ -1,38 +1,24 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "time.h"
+#include "omp.h"
 
-#define TAM 10000
+#define TAM 1000000
 
 int v[TAM];
 
 void operacaoVetor(int*, int);
+void salvarArquivo(char*);
 
 int main(){
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
+    double start, end;
 
-    FILE *pont_arq;
-    pont_arq = fopen("vetorSerial.txt", "w");
-
-    for(int i = 0; i < TAM; i++){
+    for(int i = 0; i < TAM; i++)
         v[i] = 0;
-    }
+    start = omp_get_wtime();
     operacaoVetor(v, TAM);
-    // for(int i = 0; i < tamanho; i++) printf("%d ", vetor[i]);
-    // printf("\n");
-
-    for (int i = 0; i < TAM; i++)
-    {
-        fprintf(pont_arq, "%d\n", v[i]);
-    }
-    fclose(pont_arq);
-
-    end = clock();
-    cpu_time_used = ((double) (end - start)) * 1000.0 / CLOCKS_PER_SEC;
-    printf("Tempo: %.2f ms\n", cpu_time_used);
-    
+    end = omp_get_wtime();
+    printf("Tempo: %lf segundos\n", end - start);
+    salvarArquivo("vetorSerial.txt");
     return 0;
 }
 
@@ -43,4 +29,14 @@ void operacaoVetor(int *v, int t){
         // printf("%d", v[i]);
         // printf("\n");
     }
+}
+
+void salvarArquivo(char *nome){
+    FILE *pont_arq;
+    pont_arq = fopen(nome, "w");
+    for (int i = 0; i < TAM; i++)
+    {
+        fprintf(pont_arq, "%d\n", v[i]);
+    }
+    fclose(pont_arq);
 }

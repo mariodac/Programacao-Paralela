@@ -1,29 +1,23 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "time.h"
-#include "unistd.h"
 #include "pthread.h"
+#include "omp.h"
 #define TAM 10000
 #define N_THREADS 4
 #define N_ARGS 4
 
 long int mat[TAM][TAM];
 
-struct args_struct{
+typedef struct {
     int inicio;
     int fim;
-};
+}ARG;
 
-void *operacaoMatriz(void *arguments);
+void *operacaoMatriz(void*);
+void salvarArquivo(char*);
 
 int main(){
-
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
-
-    FILE *pont_arq;
-    pont_arq = fopen("matrizThread.txt", "w");
+    double start, end;
 
     for (int i = 0; i < TAM; i++)
         for (int j = 0; j < TAM; j++)
@@ -43,7 +37,7 @@ int main(){
 
     /* usando vetor para threads e argumentos */
     pthread_t threads[N_THREADS];
-    struct args_struct args[N_ARGS];
+    ARG args[N_ARGS];
     for (int i = 0; i < N_ARGS; i++)
     {
         if(i == 0){
@@ -56,33 +50,29 @@ int main(){
         }
     }
     int c = 0;
+    start = omp_get_wtime();
     while (c != N_ARGS)
     {
         for (int i = 0; i < N_THREADS; i++)
         {
             pthread_create(&threads[i], NULL, operacaoMatriz, &args[c]);
             c++;
-            pthread_join(threads[i], NULL);
+            // pthread_join(threads[i], NULL);
         }
     }
+    for (int i = 0; i < N_THREADS; i++)
+        pthread_join(threads[i], NULL);
+    end = omp_get_wtime();
+    printf("Tempo: %lf segundos\n", end - start);
     /* usando vetor para threads e argumentos */
+    
+    salvarArquivo("matrizThread.txt");
 
-    for (int i = 0; i < TAM; i++)
-    {
-        for (int j = 0; j < TAM; j++)
-            fprintf(pont_arq, "%ld\t", mat[i][j]);
-        fprintf(pont_arq, "\n");
-    }
-    fclose(pont_arq);
-
-    end = clock();
-    cpu_time_used = ((double) (end - start)) * 1000.0 / CLOCKS_PER_SEC;
-    printf("Tempo: %.2f ms\n", cpu_time_used);
     pthread_exit(NULL);
 }
 
 void *operacaoMatriz(void *arguments){
-    struct args_struct *args = arguments;
+    ARG *args = arguments;
     printf("Inicio: %d Fim: %d\n", args->inicio, args->fim);
     for(int i = args->inicio; i < args->fim; i++){
         for (int j = 0; j < TAM; j++)
@@ -91,4 +81,17 @@ void *operacaoMatriz(void *arguments){
         }
     }
     pthread_exit(NULL);
+}
+
+void salvarArquivo(char *nome){
+    FILE *pont_arq;
+    pont_arq = fopen(nome, "w");
+    for (int i = 0; i < TAM; i++)
+    {
+        for (int j = 0; j < TAM; j++)
+            fprintf(pont_arq, "%ld\t", mat[i][j]);
+        fprintf(pont_arq, "\n");
+        
+    }
+    fclose(pont_arq);
 }

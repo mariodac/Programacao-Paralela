@@ -1,45 +1,44 @@
 #include "stdio.h"
 #include "stdlib.h"
-#include "time.h"
+#include "omp.h"
 
 #define TAM 10000
-long long int matriz[TAM][TAM];
+long int matriz[TAM][TAM];
 
 void operacaoMatriz(long long int[][TAM], int);
+void salvarArquivo(char*);
 
 int main(){
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();
-
-    FILE *pont_arq;
-    pont_arq = fopen("matrizSerial.txt", "w");
-
+    double start, end;
     int tamanho = TAM;
+
     for(int i = 0; i < tamanho; i++)
         for (int j = 0; j < tamanho; j++)
             matriz[i][j] = 0;
-    operacaoMatriz(matriz, tamanho);
-    for (int i = 0; i < tamanho; i++)
-    {
-        for (int j = 0; j < tamanho; j++)
-            fprintf(pont_arq, "%lld\t", matriz[i][j]);
-        fprintf(pont_arq, "\n");
-        
-    }
-    fclose(pont_arq);
 
-    end = clock();
-    cpu_time_used = ((double) (end - start)) * 1000.0 / CLOCKS_PER_SEC;
-    printf("Tempo: %.2f ms\n", cpu_time_used);
+    start = omp_get_wtime();
+    operacaoMatriz(matriz, tamanho);
+    end = omp_get_wtime();
+    printf("Tempo: %lf segundos\n", end - start);
+    salvarArquivo("matrizSerial.txt");
     return 0;
 }
 
 void operacaoMatriz(long long int m[][TAM], int t){
-    for(int i = 0; i < t; i++){
+    for(int i = 0; i < t; i++)
         for (int j = 0; j < t; j++)
-        {
             m[i][j] = (i + j) - (i * j);
-        }
+}
+
+void salvarArquivo(char *nome){
+    FILE *pont_arq;
+    pont_arq = fopen(nome, "w");
+    for (int i = 0; i < TAM; i++)
+    {
+        for (int j = 0; j < TAM; j++)
+            fprintf(pont_arq, "%ld\t", matriz[i][j]);
+        fprintf(pont_arq, "\n");
+        
     }
+    fclose(pont_arq);
 }

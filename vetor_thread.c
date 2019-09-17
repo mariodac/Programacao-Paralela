@@ -1,8 +1,7 @@
 #include "pthread.h"
 #include "stdio.h"
 #include "stdlib.h"
-#include "unistd.h"
-#include "time.h"
+#include "omp.h"
 
 #define TAM 1000000
 #define N_THREADS 4
@@ -10,40 +9,38 @@
 
 int v[TAM];
 
-struct args_struct{
+typedef struct {
     int inicio;
     int fim;
-};
+}ARG;
 
 void *calc(void *arguments){
-    struct args_struct *args = arguments;
+    ARG *args = arguments;
     printf("Inicio: %d Fim: %d\n", args->inicio, args->fim);
     for (int i = args->inicio; i < (args->fim); i++)
-    {
-        // printf("%d -> ", i);
         v[i] = (i + i) - (i * i);
-        // sleep(1);
-        // printf("%d ", v[i]);
-        // printf("\n");
-    }
     pthread_exit(NULL);
+}
+
+void salvarArquivo(char *nome){
+    FILE *pont_arq;
+    pont_arq = fopen(nome, "w");
+    for (int i = 0; i < TAM; i++)
+    {
+        fprintf(pont_arq, "%d\n", v[i]);
+    }
+    fclose(pont_arq);
 }
 
 int main(){
 
-    clock_t start, end;
-    double cpu_time_used;
-    start = clock();    
-    
-    FILE *pont_arq;
-    pont_arq = fopen("vetorThread.txt", "w");
-
+    double start, end;
     for(int i = 0; i < TAM; i++)
         v[i] = 0;
 
     /* usando vetor para threads e argumentos */
     pthread_t threads[N_THREADS];
-    struct args_struct args[N_ARGS];
+    ARG args[N_ARGS];
     for (int i = 0; i < N_ARGS; i++)
     {
         if(i == 0){
@@ -56,19 +53,18 @@ int main(){
         }
     }
     int c = 0;
+    start = omp_get_wtime();    
     while (c != N_ARGS)
     {
         for (int i = 0; i < N_THREADS; i++)
         {
             pthread_create(&threads[i], NULL, calc, &args[c]);
             c++;
-            pthread_join(threads[i], NULL);
+            // pthread_join(threads[i], NULL);
         }
     }
-    // for (int i = 0; i < N_THREADS; i++)
-    // {
-    //     pthread_join(threads[i], NULL);
-    // }
+    for (int i = 0; i < N_THREADS; i++)
+        pthread_join(threads[i], NULL);
     /* usando vetor para threads e argumentos */
 
     /* threads e argumentos sem uso de vetores */
@@ -95,13 +91,8 @@ int main(){
     // pthread_join(t2, NULL);
     /* threads e argumentos sem uso de vetores */
     
-    for (int i = 0; i < TAM; i++)
-        fprintf(pont_arq, "%d\n", v[i]);
-    fclose(pont_arq);
-    
-
-    end = clock();
-    cpu_time_used = ((double) (end - start)) * 1000.0 / CLOCKS_PER_SEC;
-    printf("Tempo: %.2f ms\n", cpu_time_used);
+    end = omp_get_wtime();
+    printf("Tempo: %lf segundos\n", end - start);
+    salvarArquivo("vetorThread.txt");
     pthread_exit(NULL);
 }
