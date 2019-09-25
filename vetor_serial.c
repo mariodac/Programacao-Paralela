@@ -2,7 +2,7 @@
 #include "stdlib.h"
 #include "omp.h"
 
-#define TAM 1000000
+#define TAM 100
 
 int v[TAM];
 
