@@ -2,9 +2,9 @@
 #include "stdlib.h"
 #include "pthread.h"
 #include "omp.h"
-#define TAM 1000
-#define N_THREADS 4
-#define N_ARGS 4
+#define TAM 100
+#define N_THREADS 6
+#define N_ARGS 6
 
 long int mat[TAM][TAM];
 long int mat_soma[TAM][TAM];
@@ -44,7 +44,6 @@ int main(){
     ARG args[N_ARGS];
     for (int i = 0; i < N_ARGS; i++)
     {
-        if(args[i-1].fim == TAM) break;
         if(TAM % 2 != 0){
             
             if(i == 0){
@@ -59,15 +58,15 @@ int main(){
         else if(TAM % N_ARGS != 0){
             if(i == 0){
                 args[i].inicio = 0;
-                args[i].fim = (TAM / N_ARGS) + 1;
+                args[i].fim = (TAM / N_ARGS);
             }
-            else if(i == N_ARGS - 1){
+            else if(i == N_ARGS-1){
                 args[i].inicio = args[i-1].fim;
-                args[i].fim = args[i].inicio + ((TAM / N_ARGS) + 2);
+                args[i].fim = TAM;//args[i].inicio + ((TAM / N_ARGS));
             }
             else{
                 args[i].inicio = args[i-1].fim;
-                args[i].fim = args[i].inicio + ((TAM / N_ARGS) + 1);
+                args[i].fim = args[i].inicio + ((TAM / N_ARGS));
             }
         }
         else{
@@ -81,6 +80,10 @@ int main(){
             }
         }
     }
+    if(args[N_ARGS-1].fim != TAM){
+        printf("ERRO!\n");
+        exit(-1);
+    } 
     int c = 0;
     start = omp_get_wtime();
     while (c != N_ARGS)
@@ -110,8 +113,8 @@ int main(){
     printf("Tempo: %lf segundos\n", end - start);
     /* usando vetor para threads e argumentos */
     
-    salvarArquivo("matrizThread.txt", mat);
-    salvarArquivo("matrizThreadSoma.txt", mat_soma);
+    // salvarArquivo("matrizThread.txt", mat);
+    // salvarArquivo("matrizThreadSoma.txt", mat_soma);
 
     pthread_exit(NULL);
 }
