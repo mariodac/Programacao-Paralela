@@ -3,9 +3,9 @@
 #include "stdlib.h"
 #include "omp.h"
 
-#define TAM 1000000
-#define N_THREADS 4
-#define N_ARGS 4
+#define TAM 1000000000
+#define N_THREADS 2
+#define N_ARGS 2
 
 int v[TAM];
 
@@ -16,7 +16,7 @@ typedef struct {
 
 void *calc(void *arguments){
     ARG *args = arguments;
-    printf("Inicio: %d Fim: %d\n", args->inicio, args->fim);
+    // printf("Inicio: %d Fim: %d\n", args->inicio, args->fim);
     for (int i = args->inicio; i < (args->fim); i++)
         v[i] = (i + i) - (i * i);
     pthread_exit(NULL);
