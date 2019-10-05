@@ -1,18 +1,15 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "omp.h"
+#include "atividadepp.h"
 
-#define TAM 1e8
-
-int u[(int)TAM];
-int v[(int)TAM];
-
-int produtoInterno(int *, int *);
+int u[V_TAM];
+int v[V_TAM];
 
 int main()
 {
     double inicio, fim;
-    for (int i = 0; i < TAM; i++)
+    for (int i = 0; i < V_TAM; i++)
     {
         u[i] = 1;
         v[i] = 1;
@@ -28,7 +25,7 @@ int main()
 int produtoInterno(int *u, int *v)
 {
     int soma = 0;
-    for (int i = 0; i < TAM; i++)
+    for (int i = 0; i < V_TAM; i++)
     {
         soma += u[i] * v[i];
     }

@@ -2,23 +2,12 @@
 #include "stdlib.h"
 #include "omp.h"
 #include "pthread.h"
+#include "atividadepp.h"
 
-#define TAM 1e8
-#define N_THREADS 2
-#define N_ARGS 4
-
-int u[(int)TAM];
-int v[(int)TAM];
+int u[V_TAM];
+int v[V_TAM];
 int soma = 0;          //variavel compartilhada entre as threads
 pthread_mutex_t trava; //mutex para a região critica
-
-void *produtoInterno(void *);
-
-typedef struct
-{
-    int inicio;
-    int fim;
-} INTERVALO;
 
 int main()
 {
@@ -26,7 +15,7 @@ int main()
     pthread_t threads[N_THREADS];
     INTERVALO args[N_ARGS];
 
-    for (int i = 0; i < TAM; i++) //inicializando os vetores
+    for (int i = 0; i < V_TAM; i++) //inicializando os vetores
     {
         u[i] = 1;
         v[i] = 1;
@@ -37,16 +26,16 @@ int main()
         if (i == 0) //primeiro intervalo
         {
             args[i].inicio = 0;
-            args[i].fim = TAM / N_ARGS;
+            args[i].fim = V_TAM / N_ARGS;
         }
         else //restante dos intervalos
         {
             args[i].inicio = args[i - 1].fim;
-            args[i].fim = args[i].inicio + (TAM / N_ARGS);
+            args[i].fim = args[i].inicio + (V_TAM / N_ARGS);
         }
     }
     //verificando intervalos
-    if (args[N_ARGS - 1].fim != TAM)
+    if (args[N_ARGS - 1].fim != V_TAM)
     {
         printf("Distribuição de intervalo errada!\n");
         exit(-1);
@@ -58,7 +47,7 @@ int main()
     {
         for (int i = 0; i < N_THREADS; i++) //percorrendo vetor de threads
         {
-            pthread_create(&threads[i], NULL, produtoInterno, &args[c]); // criando threads para cada intervalo dos vetores
+            pthread_create(&threads[i], NULL, paraleloProdutoInterno, &args[c]); // criando threads para cada intervalo dos vetores
             c++;
         }
     }
@@ -73,7 +62,7 @@ int main()
     pthread_exit(NULL);
 }
 
-void *produtoInterno(void *arg)
+void *paraleloProdutoInterno(void *arg)
 {
     INTERVALO *argumentos = arg;
     pthread_mutex_lock(&trava); //entrando na região critica

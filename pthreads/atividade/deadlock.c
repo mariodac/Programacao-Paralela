@@ -1,29 +1,13 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "pthread.h"
+#include "unistd.h"
+#include "atividadepp.h"
 
-#define N 5                    //numeros de filosofos
-#define V_ESQUERDA (i + N - 1) // vizinhos a esquerda
-#define V_DIREITA (i + 1) % N  // vizinhos a direita
-#define PENSANDO 0             // filosofo pensando
-#define FAMINTO 1              // filosofo tentando pegar o garfo
-#define COMENDO 2              // filosofo comendo
-pthread_t filosofos[N];        //vetor threads dos filosofos
-enum
-{
-    false,
-    true
-};
+pthread_t filosofos[N];    //vetor threads dos filosofos
 int estado[N];             //vetor de estado de todos os filosofos
 pthread_mutex_t travas[N]; //um semaforo por filosofo
 pthread_mutex_t trava;     //exclusão para regiões criticas
-
-void comendo(int);
-void pensando(int);
-void test(int);
-void pegue_garfos(int);
-void retorne_garfos(int);
-void *filosofo(void *);
 
 int main()
 {
@@ -81,7 +65,7 @@ void *filosofo(void *i)
         pense(id);          //filosofo começa a pensar
         pegue_garfos(id);   //pega dois garfos da mesa
         coma(id);           //comendo
-        retorne_garfos(id); // coloca os dois garfos de volta na mesa'
+        retorne_garfos(id); // coloca os dois garfos de volta na mesa
     }
     pthread_exit(NULL);
 }
