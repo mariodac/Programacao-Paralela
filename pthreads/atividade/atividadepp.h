@@ -14,8 +14,8 @@ typedef struct
     int inicio;
     int fim;
 } INTERVALO;
-#define V_TAM (int)5e8 // tamanho vetor
-#define M_TAM (int)1   // tamanho matriz
+#define V_TAM (int)1e8 // tamanho vetor
+#define M_TAM (int)1.2e4   // tamanho matriz
 #define N_THREADS 8
 #define N_ARGS 8
 
@@ -34,6 +34,8 @@ enum
 void *paraleloProdutoInterno(void *);
 int produtoInterno(int *, int *);
 void derivadaParcial(int[][M_TAM]);
+void *paraleloDerivadaParcial(void *);
+void salvarArquivo(char*, int[][M_TAM]);
 
 void comendo(int);
 void pensando(int);
