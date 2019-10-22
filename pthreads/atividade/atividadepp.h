@@ -14,7 +14,7 @@ typedef struct
     int inicio;
     int fim;
 } INTERVALO;
-#define V_TAM (int)1e8 // tamanho vetor
+#define V_TAM (int)6e8 // tamanho vetor
 #define M_TAM (int)1.2e4   // tamanho matriz
 #define N_THREADS 8
 #define N_ARGS 8
