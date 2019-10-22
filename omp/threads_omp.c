@@ -1,15 +1,15 @@
 #include <omp.h>
 #include <stdio.h>
 void helloWorld(){
-    #pragma omp parallel
+    int id_thread;
+    #pragma omp parallel default(none) private(id_thread)
     {
-        if(omp_get_thread_num() == 0){
-          
+        id_thread = omp_get_thread_num();
+        if(id_thread == 0){
             printf("Total threads: %d\n", omp_get_num_threads());
         }
         else{
-            printf("Hello %d\n", omp_get_thread_num());
-            printf("World! %d\n", omp_get_thread_num());
+            printf("Hello %d\n", id_thread);
         }
     }
 }
