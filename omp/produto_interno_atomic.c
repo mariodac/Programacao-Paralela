@@ -10,6 +10,7 @@ void produtoInterno(int *v, int *u)
     int somaP = 0;
     int i = 0;
     int num_threads = 0;
+    // Utilizando atomic para driblar a região critica (condição de corrida)
     #pragma omp parallel default(none) shared(somaT, v, u, num_threads) private(somaP, i) num_threads(10)
     {
         num_threads = omp_get_num_threads();
