@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAM (int)6e8
+#define TAM (int)1e8
 
 void produtoInterno(int *v, int *u)
 {
@@ -11,7 +11,7 @@ void produtoInterno(int *v, int *u)
     int i = 0;
     int num_threads = 0;
     // Utilizando atomic para driblar a região critica (condição de corrida)
-    #pragma omp parallel default(none) shared(somaT, v, u, num_threads) private(somaP, i) num_threads(10)
+    #pragma omp parallel default(none) shared(somaT, v, u, num_threads) private(somaP, i) num_threads(4)
     {
         num_threads = omp_get_num_threads();
         #pragma omp for
@@ -19,12 +19,12 @@ void produtoInterno(int *v, int *u)
         {
             somaP += u[i] * v[i];
         }
-        // printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
-        // printf("Soma parcial %d: %d\n", omp_get_thread_num(), somaP);
+        printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
+        printf("Soma parcial %d: %d\n", omp_get_thread_num(), somaP);
         #pragma omp atomic
         somaT += somaP;
-        // printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
-        // printf("Soma parcial da thread %d: %d\n", omp_get_thread_num(), sum);
+        printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
+        // printf("Soma parcial da thread %d: %d\n", omp_get_thread_num(), somaP);
     }
     printf("Totais de threads: %d\n", num_threads);
     printf("<u, v> = %d\n", somaT);
