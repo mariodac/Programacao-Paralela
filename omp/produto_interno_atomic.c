@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define TAM (int)1e8
+#define TAM (int)1e6
 
 void produtoInterno(int *v, int *u)
 {
@@ -19,11 +19,11 @@ void produtoInterno(int *v, int *u)
         {
             somaP += u[i] * v[i];
         }
-        printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
-        printf("Soma parcial %d: %d\n", omp_get_thread_num(), somaP);
+        // printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
+        // printf("Soma parcial %d: %d\n", omp_get_thread_num(), somaP);
         #pragma omp atomic
         somaT += somaP;
-        printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
+        // printf("Soma total %d: %d \n",omp_get_thread_num(), somaT);
         // printf("Soma parcial da thread %d: %d\n", omp_get_thread_num(), somaP);
     }
     printf("Totais de threads: %d\n", num_threads);
