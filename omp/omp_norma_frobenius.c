@@ -3,7 +3,7 @@
 #include <omp.h>
 #include <math.h>
 
-#define TAM (int)1e4
+#define TAM (int)3.6e4
 
 void norma_f(int**);
 
@@ -36,13 +36,13 @@ void norma_f(int **matriz){
     int somaT = 0;
     int norma = 0;
     int num_threads = 0;
-    #pragma omp parallel default(none) shared(somaT, matriz, num_threads, norma) private(i, j) num_threads(4)
+    #pragma omp parallel default(none) shared(somaT, matriz, num_threads, norma) private(i, j) num_threads(10)
     {
         num_threads = omp_get_num_threads();
         #pragma omp for reduction(+: somaT) collapse(2)
         for (i = 0; i < TAM; i++){
             for (j = 0; j < TAM; j++){
-                somaT += (pow(matriz[i][j], 2));
+                somaT += pow(matriz[i][j], 2);
             }
         }
         norma = sqrt(somaT);
