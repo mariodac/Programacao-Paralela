@@ -4,7 +4,7 @@
 
 #define TAM (int)1e3
 
-void multiplicarDuasMatrizes(int**, int**, int**);
+int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
 void imprimir(int**);
 void salvarArquivo(char*, int**);
@@ -12,7 +12,7 @@ void salvarArquivo(char*, int**);
 int main()
 {
     double inicio, fim;
-    int **matrizA, **matrizB, **matrizC;
+    int **matrizA, **matrizB, **matrizC, numero_threads;
     matrizA = (int**)malloc(sizeof(int*) * TAM);
     matrizB = (int**)malloc(sizeof(int*) * TAM);
     matrizC = (int**)malloc(sizeof(int*) * TAM);
@@ -24,29 +24,33 @@ int main()
     }
     gerarMatriz(matrizA, matrizB, matrizC);
     inicio = omp_get_wtime();
-    multiplicarDuasMatrizes(matrizA, matrizB, matrizC);
+    numero_threads = multiplicarDuasMatrizes(matrizA, matrizB, matrizC);
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
+    printf("Threads: %d\n", numero_threads);
     // imprimir(matrizC);
     salvarArquivo("matrizCSerial.txt", matrizC);
     return 0;
 }
 
-void multiplicarDuasMatrizes(int **matrizB, int **matrizA, int **matrizC){
-    int i, j, k;
-    #pragma omp parallel for default(none) private(i, j, k) shared(matrizA, matrizB, matrizC) collapse(3) schedule(static) num_threads(2)
+int multiplicarDuasMatrizes(int **matrizB, int **matrizA, int **matrizC){
+    int i, j, k, numero_threads = 0;
+    #pragma omp parallel for default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) collapse(3) schedule(static) num_threads(2)
     for (i = 0; i < TAM; i++)
     {
         for (j = 0; j < TAM; j++)
         {
             for (k = 0; k < TAM; k++)
             {
+                // if(omp_get_thread_num() == 0 && k == 0)
+                    // numero_threads = omp_get_num_threads();
                 matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
             }
             
         }
         
     }
+    return numero_threads;
     
 }
 
