@@ -29,7 +29,7 @@ int main(){
 int norma_f(int **matriz){
     for (int i = 0; i < TAM; i++)
         for (int j = 0; j < TAM; j++)
-            soma += abs(pow(matriz[i][j], 2));
+            soma += (pow(matriz[i][j], 2));
         
-    return soma;
+    return sqrt(soma);
 }

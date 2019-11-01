@@ -1,6 +1,6 @@
 #include "stdio.h"
 #include "stdlib.h"
-#define N 800
+#define N 3
 
 void multiplicar(int[][N], int[][N], int[][N]);
 void gerarMatriz(int[][N], int[][N]);
@@ -19,8 +19,8 @@ int main(){
 void gerarMatriz(int mat1[][N], int mat2[][N]){
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++){
-            mat1[i][j] = rand() % 100;
-            mat2[i][j] = rand() % 100;
+            mat1[i][j] = 1;
+            mat2[i][j] = 2;
         }
     }
 }
