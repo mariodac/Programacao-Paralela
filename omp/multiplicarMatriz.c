@@ -29,7 +29,7 @@ int main(){
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
     // imprimir(resultado);
-    salvarArquivo("matrizCSerial.txt", resultado);
+    salvarArquivo("matrizCPararela.txt", resultado);
     for (int i = 0; i < N; i++)
     {
         free(matriz1[i]);
