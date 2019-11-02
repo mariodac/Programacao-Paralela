@@ -1,7 +1,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "omp.h"
-#define N (int)1e3
+#define N (int)3e3
 
 void multiplicar(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);

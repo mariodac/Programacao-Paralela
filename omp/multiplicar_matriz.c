@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define TAM (int)1e3
+#define TAM (int)2e3
 
 int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
@@ -35,15 +35,15 @@ int main()
 
 int multiplicarDuasMatrizes(int **matrizB, int **matrizA, int **matrizC){
     int i, j, k, numero_threads = 0;
-    #pragma omp parallel for default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) collapse(3) schedule(static) num_threads(2)
+    #pragma omp parallel for default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) collapse(3) schedule(static) num_threads(10)
     for (i = 0; i < TAM; i++)
     {
         for (j = 0; j < TAM; j++)
         {
             for (k = 0; k < TAM; k++)
             {
-                // if(omp_get_thread_num() == 0 && k == 0)
-                    // numero_threads = omp_get_num_threads();
+                if(omp_get_thread_num() == 0 && k == 0)
+                    numero_threads = omp_get_num_threads();
                 matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
             }
             
