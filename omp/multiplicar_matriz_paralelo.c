@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define TAM (int)2e3
+#define TAM (int)3e3
 
 int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
@@ -28,6 +28,7 @@ int main()
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
     printf("Threads: %d\n", numero_threads);
+    printf("Tamanho: %d\n", TAM);
     // imprimir(matrizC);
     salvarArquivo("matrizCSerial.txt", matrizC);
     return 0;
