@@ -1,6 +1,6 @@
-#include "stdio.h"
-#include "stdlib.h"
-#include "omp.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <omp.h>
 #define N (int)3e3
 
 void multiplicar(int**, int**, int**);
@@ -29,7 +29,7 @@ int main(){
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
     // imprimir(resultado);
-    salvarArquivo("matrizCPararela.txt", resultado);
+    salvarArquivo("matrizCSerial.txt", resultado);
     for (int i = 0; i < N; i++)
     {
         free(matriz1[i]);
@@ -61,10 +61,10 @@ void multiplicar(int **mat1, int **mat2, int **resultado) {
     } 
 } 
 
-void imprimir(int **res){
+void imprimir(int **resultado){
     for(int i = 0; i < N; i++){
         for(int j = 0; j < N; j++)
-            printf("%d \t", res[i][j]);
+            printf("%d \t", resultado[i][j]);
         printf("\n");
     }
 }
