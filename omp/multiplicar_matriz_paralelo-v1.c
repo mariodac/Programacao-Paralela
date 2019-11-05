@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define TAM (int)3e3
+#define TAM (int)2e3
 
 int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
@@ -27,8 +27,8 @@ int main()
     numero_threads = multiplicarDuasMatrizes(matrizA, matrizB, matrizC);
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
-    printf("Threads: %d\n", numero_threads);
-    printf("Tamanho: %d\n", TAM);
+    // printf("Threads: %d\n", numero_threads);
+    // printf("Tamanho: %d\n", TAM);
     // imprimir(matrizC);
     salvarArquivo("matrizCParalela.txt", matrizC);
     return 0;
@@ -36,15 +36,13 @@ int main()
 
 int multiplicarDuasMatrizes(int **matrizA, int **matrizB, int **matrizC){
     int i, j, k, numero_threads = 0;
-    #pragma omp parallel for collapse(2) schedule(static, 8) default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) num_threads(10)
+    #pragma omp parallel for collapse(2) schedule(static) default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) num_threads(10)
     for (i = 0; i < TAM; i++)
     {
         for (j = 0; j < TAM; j++)
         {
             for (k = 0; k < TAM; k++)
             {
-                if(omp_get_thread_num() == 0 && k == 0)
-                    numero_threads = omp_get_num_threads();
                 matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
             }
             

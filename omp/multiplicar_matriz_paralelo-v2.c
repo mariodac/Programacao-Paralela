@@ -27,8 +27,8 @@ int main()
     numero_threads = multiplicarDuasMatrizes(matrizA, matrizB, matrizC);
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
-    printf("Threads: %d\n", numero_threads);
-    printf("Tamanho: %d\n", TAM);
+    // printf("Threads: %d\n", numero_threads);
+    // printf("Tamanho: %d\n", TAM);
     // imprimir(matrizC);
     salvarArquivo("matrizCParalela.txt", matrizC);
     return 0;
