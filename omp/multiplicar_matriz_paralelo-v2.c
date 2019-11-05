@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define TAM (int)3e3
+#define TAM (int)2e3
 
 int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
@@ -30,7 +30,9 @@ int main()
     // printf("Threads: %d\n", numero_threads);
     // printf("Tamanho: %d\n", TAM);
     // imprimir(matrizC);
-    salvarArquivo("matrizCParalela.txt", matrizC);
+    char nome[30];
+    sprintf(nome, "matrizCParelela2%d.txt", TAM);
+    salvarArquivo(nome, matrizC);
     return 0;
 }
 
@@ -47,7 +49,6 @@ int multiplicarDuasMatrizes(int **matrizA, int **matrizB, int **matrizC){
             {
                 for (k = 0; k < TAM; k++)
                 {
-                    
                     matrizC[i][j] += matrizA[i][k] * matrizB[k][j];
                 }
                 

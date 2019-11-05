@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <omp.h>
-#define N (int)3e3
+#include <string.h>
+#define N (int)1e3
 
 void multiplicar(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);
@@ -29,7 +30,10 @@ int main(){
     fim = omp_get_wtime();
     printf("Tempo: %lf\n", fim-inicio);
     // imprimir(resultado);
-    salvarArquivo("matrizCSerial.txt", resultado);
+    char nome[30];
+    sprintf(nome, "matrizCSerial%d.txt", N);
+    // printf("%s", nome);
+    salvarArquivo(nome, resultado);
     for (int i = 0; i < N; i++)
     {
         free(matriz1[i]);

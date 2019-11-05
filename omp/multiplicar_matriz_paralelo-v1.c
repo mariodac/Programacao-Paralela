@@ -30,13 +30,15 @@ int main()
     // printf("Threads: %d\n", numero_threads);
     // printf("Tamanho: %d\n", TAM);
     // imprimir(matrizC);
-    salvarArquivo("matrizCParalela.txt", matrizC);
+    char nome[30];
+    sprintf(nome, "matrizCParelela%d.txt", TAM);
+    salvarArquivo(nome, matrizC);
     return 0;
 }
 
 int multiplicarDuasMatrizes(int **matrizA, int **matrizB, int **matrizC){
     int i, j, k, numero_threads = 0;
-    #pragma omp parallel for collapse(2) schedule(static) default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) num_threads(10)
+    #pragma omp parallel for collapse(3) schedule(guided, 25) default(none) private(i, j, k) shared(numero_threads, matrizA, matrizB, matrizC) num_threads(2)
     for (i = 0; i < TAM; i++)
     {
         for (j = 0; j < TAM; j++)
