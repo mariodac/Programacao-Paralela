@@ -24,6 +24,7 @@ int main()
     fim = omp_get_wtime();
 
     printf("Tempo: %lf s\n", fim - inicio);
+    salvarArquivo("serialMatriz_original.txt",m);
     salvarArquivo("serialMatriz_x.txt", mx);
     salvarArquivo("serialMatriz_y.txt", my);
     

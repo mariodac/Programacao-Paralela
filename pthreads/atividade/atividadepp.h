@@ -15,9 +15,9 @@ typedef struct
     int fim;
 } INTERVALO;
 #define V_TAM (int)6e8 // tamanho vetor
-#define M_TAM (int)1.2e4   // tamanho matriz
-#define N_THREADS 8
-#define N_ARGS 8
+#define M_TAM (int)1e2   // tamanho matriz
+#define N_THREADS 2
+#define N_ARGS 2
 
 #define N 5                    // numeros de filosofos
 #define V_ESQUERDA (i + N - 1) // vizinhos a esquerda
