@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <omp.h>
 
-#define TAM (int)2e3
+#define TAM (int)1e3
 
 int multiplicarDuasMatrizes(int**, int**, int**);
 void gerarMatriz(int**, int**, int**);

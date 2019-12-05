@@ -33,6 +33,15 @@ int main()
     char nome[30];
     sprintf(nome, "matrizCParelela2%d.txt", TAM);
     salvarArquivo(nome, matrizC);
+    for(int i = TAM; i >= 0; i--)
+    {
+        free(matrizA[i]);
+        free(matrizB[i]);
+        free(matrizC[i]);
+    }
+    free(matrizA);
+    free(matrizB);
+    free(matrizC);
     return 0;
 }
 
@@ -42,7 +51,7 @@ int multiplicarDuasMatrizes(int **matrizA, int **matrizB, int **matrizC){
     {
         if(omp_get_thread_num() == 0)
             numero_threads = omp_get_num_threads();
-        #pragma omp for collapse(3)
+        #pragma omp for collapse(2)
         for (i = 0; i < TAM; i++)
         {
             for (j = 0; j < TAM; j++)
