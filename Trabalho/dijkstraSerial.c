@@ -86,6 +86,7 @@ void preencheGrafoAleatorio(Vertice *vertices, Aresta *arestas, int *pesos)
 		pesos[i] = rand()%100;
 	}
 }
+//para gerar grafo igual ao do OMP
 void preencheGrafo(Vertice *vertices, Aresta *arestas, int *pesos)
 {
 	int i = 0, j, k;
