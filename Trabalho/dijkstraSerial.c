@@ -65,11 +65,14 @@ int main(void)
 	int pesos[TOTAL_A];
 	preencheGrafoAleatorio(vertices, arestas, pesos);
 	int *caminhosMin;
+	//setando vertice de origem
 	Vertice origem = {0, false};
 	double inicio, fim;
 	printf("Serial Resultados para grafo de %d Vertices e %d Arestas:\n", TOTAL_V, TOTAL_A);
+	//inicio da contagem de tempo
 	inicio = omp_get_wtime();
 	caminhosMin = dijkstraSerial(vertices, arestas, pesos, &origem);
+	//final da contagem de tempo
 	fim = omp_get_wtime();
 	printf("Tempo: %.4f\n", fim-inicio);
 	salvarResultado(caminhosMin, "Serial_dijkstra.txt");
