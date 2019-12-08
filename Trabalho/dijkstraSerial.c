@@ -3,10 +3,14 @@
 #include <stdlib.h>
 #include <omp.h>
 
+
 #define MAX 100000
+//total de vertices
 #define TOTAL_V 2048
+//total de arestas
 #define TOTAL_A 2048*2
 
+//enumerando os valores booleano
 enum
 {
 	false,
@@ -70,6 +74,8 @@ int main(void)
 	printf("Tempo: %.4f\n", fim-inicio);
 	salvarResultado(caminhosMin, "Serial_dijkstra.txt");
 }
+
+//preenche grafo com arestas e pesos aleatorios
 void preencheGrafoAleatorio(Vertice *vertices, Aresta *arestas, int *pesos)
 {
 	int i =0;
@@ -118,28 +124,8 @@ void preencheGrafo(Vertice *vertices, Aresta *arestas, int *pesos)
 		
 		i++;
 	}
-	
-	// for(i = 0; i < TOTAL_A; i++){
-		
-	// 	if(j < TOTAL_V && k > 0)
-	// 	{
-	// 		Aresta a = {.u = j, .v = k};
-	// 		pesos[i] = i+2;
-	// 		j++;
-	// 		k--;
-	// 	}
-	// 	else if(j == TOTAL_V && k == 0){
-	// 		j = TOTAL_V - 1;
-	// 		k = 0;
-	// 		continue;
-	// 	}
-	// 	/* j--;
-	// 	k++;
-	// 	Aresta a = {.u = k, .v = j};
-	// 	pesos[i] = i+2; */
-		
-	// }
 }
+//salva resultado do algoritmo dijkstra em arquivo.txt
 void salvarResultado(int *caminhosMin, char *nome)
 {
 	FILE *arq;
@@ -151,7 +137,7 @@ void salvarResultado(int *caminhosMin, char *nome)
 	
 }
 
-//Imprime resultado
+//Imprime resultado dos caminhos minimos na tela
 void imprimeResultado(int *caminhosMin)
 {
 	int i;
@@ -167,11 +153,13 @@ void imprimeResultado(int *caminhosMin)
 int* dijkstraSerial(Vertice *vertices, Aresta *arestas, int *pesos, Vertice *origem)
 {
 	origem->visitado = true;
+	//vetor que armazeno as distancias minima para cada vertice a partir da origem
 	int *caminhosMin = malloc(sizeof(int) * TOTAL_V);
+	//distancia 0 para vertice de origem
 	caminhosMin[(int)origem->id] = 0;
 
 	int i, j;
-
+	//visita vertices a partir da origem
 	for (i = 0; i < TOTAL_V; i++)
 		if (vertices[i].id != origem->id)
 			caminhosMin[(int)vertices[i].id] = encontraAresta(*origem, vertices[i], arestas, pesos);
@@ -181,12 +169,15 @@ int* dijkstraSerial(Vertice *vertices, Aresta *arestas, int *pesos, Vertice *ori
 	for (j = 0; j < TOTAL_V; j++)
 	{
 		Vertice u;
+		//encontrando o indice do vertice com caminho minimo
 		int vMin = caminhoMin(vertices, caminhosMin);
 		u = vertices[vMin];
 		for (i = 0; i < TOTAL_V; i++){
 			if (vertices[i].visitado == false)
 			{
+				//peso da aresta que conecta u e vertice[i]
 				int peso_u_v = encontraAresta(u, vertices[i], arestas, pesos);
+				//setando a distacia minima para o vertic[i]
 				caminhosMin[vertices[i].id] = minimo(caminhosMin[vertices[i].id], caminhosMin[u.id] + peso_u_v);
 			}
 		}
