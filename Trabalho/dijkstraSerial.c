@@ -6,9 +6,9 @@
 
 #define MAX 100000
 //total de vertices
-#define TOTAL_V 2048
+#define TOTAL_V 512
 //total de arestas
-#define TOTAL_A 2048*2
+#define TOTAL_A 512*2
 
 //enumerando os valores booleano
 enum
@@ -190,11 +190,12 @@ int* dijkstraSerial(Vertice *vertices, Aresta *arestas, int *pesos, Vertice *ori
 	return caminhosMin;
 }
 
-//Encontra aresta que conecta u e v
+//Encontra aresta que conecta u e v e retorna o peso da aresta que conecta u e v
 int encontraAresta(Vertice u, Vertice v, Aresta *arestas, int *pesos)
 {
 	int i;
 	for (i = 0; i < TOTAL_A; i++)
+		// se o vertice u da aresta atual é igual ao id do vertice u e vertice v da aresta atual é igual ao id do vertice v
 		if (arestas[i].u == u.id && arestas[i].v == v.id)
 			return pesos[i];
 	return MAX;
@@ -209,15 +210,19 @@ int minimo(int a, int b)
 		return b;
 }
 
-//Percorre os vertices e encontra o menor peso do vertice
+//Percorre os vertices e encontra o menor distancia para cada vertice
 int pesoMin(int *caminhosMin, Vertice *vertices)
 {
 	int i;
+	// armazena distancia minima do vertice
 	int menor = MAX;
 	for (i = 0; i < TOTAL_V; i++)
+		// se o vértice já foi visitado passa para próxima iteração
 		if (vertices[i].visitado == true)
 			continue;
+		// só percorre os vértices que não foram visitados e tem uma distancia menor
 		else if (vertices[i].visitado == false && caminhosMin[i] < menor)
+			// armazenando a menor distancia até esse vertice
 			menor = caminhosMin[i];
 	return menor;
 }
@@ -226,12 +231,14 @@ int pesoMin(int *caminhosMin, Vertice *vertices)
 int caminhoMin(Vertice *vertices, int *caminhosMin)
 {
 	int i;
+	// pega o distancia minima dos vertice
 	int min = pesoMin(caminhosMin, vertices);
-
+	// percorre vertices que não foram visitados e encontra o vertice que possue essa aresta com a distancia minima
 	for (i = 0; i < TOTAL_V; i++)
 		if (vertices[i].visitado == false && caminhosMin[vertices[i].id] == min)
 		{
 			vertices[i].visitado = true;
+			// retorna o id do vertice
 			return i;
 		}
 }
