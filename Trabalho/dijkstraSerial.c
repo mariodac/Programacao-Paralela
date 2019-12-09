@@ -104,22 +104,26 @@ void preencheGrafo(Vertice *vertices, Aresta *arestas, int *pesos)
 		Vertice v = { .id =(int) i, .visitado=false};
 		vertices[i] = v;
 	}
-	j = TOTAL_V;
-	k = TOTAL_A/4;
+	j = TOTAL_V; // sera usado para o id de u
+	k = TOTAL_A/4; // sera usado para o id de v
 	i = 0;
 	while (i < TOTAL_A)
 	{
-		
+		// faz divisão para não ficar sempre igual
 		j = j/2;
 		k = k/2;
 		if(j != k){
+			// a.u = j a.v = k
 			Aresta a = {.u = j, .v = k};
 			arestas[i] = a;
 			pesos[i] = i+2;
 		}
+		// a divisão foi feita até chegar no 0
 		if(j == 0 && k == 0){
+			//faz divisão novamente para não repetir valores
 			k = TOTAL_A/2;
 			j = TOTAL_A/4;
+			// agora é invertido para tentativa de não vertice que aponta para ele mesmo
 			Aresta a = {.u = k, .v = j};
 			arestas[i] = a;
 			pesos[i] = i+2;
