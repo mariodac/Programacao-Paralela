@@ -6,7 +6,7 @@
 #define MAX 100000
 #define TOTAL_V 2048
 #define TOTAL_A 2048 * 2
-#define N_THREADS 8
+#define N_THREADS 16
 
 enum
 {
@@ -153,7 +153,7 @@ int *dijkstraOMP(Vertice *vertices, Aresta *arestas, int *pesos, Vertice *origem
 
 	int i, j;
 
-	#pragma omp parallel for private(i) schedule(guided) num_threads(N_THREADS)
+	#pragma omp parallel for private(i) schedule(dynamic) num_threads(N_THREADS)
 	for (i = 0; i < TOTAL_V; i++)
 		if (vertices[i].id != origem->id)
 			caminhosMin[(int)vertices[i].id] = encontraAresta(*origem, vertices[i], arestas, pesos);
@@ -166,7 +166,7 @@ int *dijkstraOMP(Vertice *vertices, Aresta *arestas, int *pesos, Vertice *origem
 	{
 		vMin = caminhoMin(vertices, caminhosMin);
 		u = vertices[vMin];
-		#pragma omp parallel for schedule(guided) private(i)
+		#pragma omp parallel for schedule(dynamic) private(i) num_threads(N_THREADS)
 		for (i = 0; i < TOTAL_V; i++)
 		{
 			if (vertices[i].visitado == false)
